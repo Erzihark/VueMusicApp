@@ -20,4 +20,7 @@ module.exports = {
   env: {
     node: true,
   },
+  rules: {
+    "multi-word-component-names": off
+  }
 };
