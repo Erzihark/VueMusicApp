@@ -35,11 +35,14 @@
             >
                 Submit
             </button>
-    </vee-form>
+        </vee-form>
     </div>
 </template>
 
 <script>
+import { mapActions } from 'pinia';
+import useUserStore from "@/stores/user"
+
 export default{
     name:"LoginForm",
     data(){
@@ -56,15 +59,25 @@ export default{
         }
     },
     methods:{
-        login(values){
+        ...mapActions(useUserStore, ["authenticate"]),
+        async login(values){
             this.log_in_submission = true;
             this.log_show_alert = true;
             this.log_alert_variant = 'bg-blue-500';
             this.log_alert_msg = "Please wait! We are logging you in."
 
+            try{
+                await this.authenticate(values);
+            } catch(error){
+                this.log_in_submission = false;
+                this.log_alert_variant = 'bg-red-500';
+                this.log_alert_msg = 'Invalid login details.'
+                return;
+            }
+
             this.log_alert_variant = 'bg-green-500';
             this.log_alert_msg = "Success! You are now logged in."
-            console.log(values);
+            window.location.reload();
         }
     }
 }
