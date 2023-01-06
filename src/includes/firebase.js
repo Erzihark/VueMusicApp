@@ -17,13 +17,19 @@ const auth = firebase.auth();
 const db = firebase.firestore();
 const storage = firebase.storage();
 
+db.enablePersistence().catch((error)=>{
+  console.log('Firebase persistence error ', error.code)
+});
+
 const usersCollection = db.collection('users');
 const songsCollection = db.collection('songs');
+const commentsCollection = db.collection('comments');
 
 export {
     auth,
     db,
     usersCollection,
     songsCollection,
+    commentsCollection,
     storage,
 }
